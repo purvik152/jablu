@@ -59,7 +59,7 @@ export async function GET() {
 
 
 // --- POST: To create a user's profile ---
-export async function POST() {
+export async function POST(request: NextRequest) {
   await dbConnect();
   try {
     const token = (await cookies()).get('token')?.value;

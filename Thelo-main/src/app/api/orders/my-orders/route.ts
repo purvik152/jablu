@@ -9,7 +9,7 @@ interface DecodedToken {
     id: string;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     console.log("MY_ORDERS_API: Received a request.");
     try {
         await dbConnect();

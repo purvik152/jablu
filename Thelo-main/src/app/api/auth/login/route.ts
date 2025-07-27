@@ -13,7 +13,7 @@ import dbConnect from '@/lib/dbConnect';
 import User from '@/models/User';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import { cookies } from 'next/headers';
+// import { cookies } from 'next/headers'; // Remove if not used
 
 export async function POST(request: NextRequest) {
   await dbConnect();
