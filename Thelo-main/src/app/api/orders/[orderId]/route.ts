@@ -10,10 +10,10 @@ interface DecodedToken {
     role: string;
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { orderId: string } }) {
+export async function PUT(request: NextRequest, context: { params: { orderId: string } }) {
     await dbConnect();
     try {
-        const { orderId } = params;
+        const { orderId } = context.params;
         const { status } = await request.json();
 
         // (Authentication and verification code...)
