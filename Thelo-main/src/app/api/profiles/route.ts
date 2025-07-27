@@ -49,7 +49,7 @@ export async function GET() {
         }
         return NextResponse.json({ success: true, profile }, { status: 200 });
     } catch (error: unknown) {
-        if (error instanceof Error && (error as any).name === 'JsonWebTokenError') {
+        if (error instanceof Error && 'name' in error && error.name === 'JsonWebTokenError') {
             return NextResponse.json({ message: 'Authentication failed: Invalid token.' }, { status: 401 });
         }
         console.error('PROFILE_FETCH_ERROR', error);
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: 'Invalid user role.' }, { status: 400 });
     }
   } catch (error: unknown) {
-    if (error instanceof Error && (error as any).name === 'JsonWebTokenError') {
+    if (error instanceof Error && 'name' in error && error.name === 'JsonWebTokenError') {
         return NextResponse.json({ message: 'Authentication failed: Invalid token.' }, { status: 401 });
     }
     console.error('PROFILE_CREATION_ERROR', error);

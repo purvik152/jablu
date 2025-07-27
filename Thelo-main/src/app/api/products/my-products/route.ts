@@ -7,7 +7,7 @@
 * file will solve the "Unexpected end of JSON input" error.
 * =================================================================================================
 */
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';

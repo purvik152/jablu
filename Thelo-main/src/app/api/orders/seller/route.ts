@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
-import Order, { IOrder } from '@/models/Order'; // Import IOrder
+import Order from '@/models/Order'; // Import IOrder
 import Product from '@/models/Product';
 import User from '@/models/User';
 import SellerProfile from '@/models/SellerProfile';

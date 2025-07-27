@@ -4,7 +4,7 @@ import Notification from '@/models/Notification';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
-export async function PUT(request: NextRequest) {
+export async function PUT() {
     await dbConnect();
     try {
         const token = (await cookies()).get('token')?.value;
@@ -17,7 +17,7 @@ export async function PUT(request: NextRequest) {
         );
         
         return NextResponse.json({ success: true, message: 'Notifications marked as read' });
-    } catch (error) {
-        return NextResponse.json({ message: 'Error updating notifications' }, { status: 500 });
+    } catch {
+        return NextResponse.json({ message: 'Failed to mark notification as read.' }, { status: 500 });
     }
 }

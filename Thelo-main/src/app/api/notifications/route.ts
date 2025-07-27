@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import Notification from '@/models/Notification';
 import jwt from 'jsonwebtoken';
@@ -16,7 +16,7 @@ export async function GET() {
             .limit(10); // Get the 10 most recent notifications
         
         return NextResponse.json({ success: true, notifications });
-    } catch (error) {
+    } catch {
         return NextResponse.json({ message: 'Error fetching notifications' }, { status: 500 });
     }
 }
