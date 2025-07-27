@@ -39,11 +39,12 @@ async function getSellerAndVerify(token: string | undefined, productId: string) 
     return { product, sellerProfile };
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { productId: string } }) {
+export async function PUT(request: NextRequest) {
     await dbConnect();
     try {
         const token = (await cookies()).get('token')?.value;
-        const { productId } = params;
+        const urlParts = request.nextUrl.pathname.split('/');
+        const productId = urlParts[urlParts.length - 1];
         await getSellerAndVerify(token, productId);
         const body = await request.json();
         const updatedProduct = await Product.findByIdAndUpdate(productId, body, { new: true, runValidators: true });
@@ -57,11 +58,12 @@ export async function PUT(request: NextRequest, { params }: { params: { productI
     }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { productId: string } }) {
+export async function DELETE(request: NextRequest) {
     await dbConnect();
     try {
         const token = (await cookies()).get('token')?.value;
-        const { productId } = params;
+        const urlParts = request.nextUrl.pathname.split('/');
+        const productId = urlParts[urlParts.length - 1];
         await getSellerAndVerify(token, productId);
         await Product.findByIdAndDelete(productId);
         return NextResponse.json({ message: 'Product deleted successfully!' }, { status: 200 });
