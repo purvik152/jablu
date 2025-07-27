@@ -50,14 +50,25 @@ export async function PUT(request: NextRequest) {
         link: '/dashboard/shopkeeper/orders',
       }).save();
       console.log('✅ Notification created');
-    } catch (notificationError: any) {
-      console.error('❌ Failed to create notification:', notificationError.message);
+    } catch (notificationError: unknown) {
+      console.error('--- UPDATE_ORDER_API: NOTIFICATION CREATION FAILED ---');
+      if (notificationError instanceof Error) {
+          console.error(notificationError.message);
+      } else {
+          console.error(notificationError);
+      }
+      console.error('--------------------------------------------------');
     }
 
     return NextResponse.json({ success: true, order });
 
-  } catch (error: any) {
-    console.error('❌ API ERROR:', error.message || error);
+  } catch (error: unknown) {
+    console.error('--- UPDATE_ORDER_API CRASH ---');
+    if (error instanceof Error) {
+        console.error(error.message);
+    } else {
+        console.error(error);
+    }
     return NextResponse.json({ message: 'Failed to update order status' }, { status: 500 });
   }
 }
