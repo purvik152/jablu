@@ -29,6 +29,7 @@ export default async function ProductDetailPage({ params }: { params: { productI
 
   if (!product) {
     notFound();
+    return null; // Add fallback return for type safety
   }
 
   return (
