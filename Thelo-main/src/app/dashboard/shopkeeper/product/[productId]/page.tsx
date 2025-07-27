@@ -23,13 +23,8 @@ async function getProductById(productId: string) {
   }
 }
 
-type PageProps = {
-  params: { productId: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-};
-
 // This is the main Server Component for the page
-export default async function ProductDetailPage({ params }: PageProps) {
+export default async function ProductDetailPage({ params }: { params: { productId: string } }) {
   const product = await getProductById(params.productId);
 
   if (!product) {
