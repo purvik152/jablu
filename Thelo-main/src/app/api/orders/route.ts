@@ -65,16 +65,24 @@ export async function POST(request: NextRequest) {
                     console.error("ORDER API: Notification failed - Product not found.");
                 }
             }
-        } catch (notificationError: any) {
+        } catch (notificationError: unknown) {
             console.error("--- ORDER API: FAILED TO CREATE NOTIFICATION ---");
-            console.error(notificationError.message);
+            if (notificationError instanceof Error) {
+                console.error(notificationError.message);
+            } else {
+                console.error(notificationError);
+            }
         }
 
         return NextResponse.json({ message: 'Order created successfully', order: newOrder }, { status: 201 });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("--- ORDER API CRASH ---");
-        console.error(error.message);
+        if (error instanceof Error) {
+            console.error(error.message);
+        } else {
+            console.error(error);
+        }
         console.error("-----------------------");
         return NextResponse.json({ message: 'Failed to create order on the server.' }, { status: 500 });
     }

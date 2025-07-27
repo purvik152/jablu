@@ -73,7 +73,7 @@ function ManageProductsView() {
         }
 
         if (products.length === 0) {
-            return <div className="text-center h-24 flex items-center justify-center">You haven't added any products yet.</div>;
+            return <div className="text-center h-24 flex items-center justify-center">You haven&apos;t added any products yet.</div>;
         }
 
         return (
@@ -157,7 +157,7 @@ function ManageProductsView() {
 
             <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
                 <DialogContent className="sm:max-w-lg bg-[#FBF3E5]">
-                    <DialogHeader><DialogTitle>{productToEdit ? 'Edit Product' : 'Add a New Product'}</DialogTitle><DialogDescription>Fill in the details below. Click save when you're done.</DialogDescription></DialogHeader>
+                    <DialogHeader><DialogTitle>{productToEdit ? 'Edit Product' : 'Add a New Product'}</DialogTitle><DialogDescription>Fill in the details below. Click save when you&apos;re done.</DialogDescription></DialogHeader>
                     <form onSubmit={handleSaveProduct}>
                         <div className="grid gap-4 py-4">
                             <div className="grid grid-cols-1 sm:grid-cols-4 items-center gap-x-4 gap-y-2"><Label htmlFor="name" className="sm:text-right">Name</Label><Input id="name" name="name" defaultValue={productToEdit?.name} className="sm:col-span-3 bg-[#FDFBF4]" required /></div>
@@ -174,7 +174,7 @@ function ManageProductsView() {
                     </form>
                 </DialogContent>
             </Dialog>
-            <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}><AlertDialogContent className="bg-[#FBF3E5]"><AlertDialogHeader><AlertDialogTitle>Are you sure?</AlertDialogTitle><AlertDialogDescription>This will permanently delete the product "{productToDelete?.name}".</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={handleDeleteProduct} className="bg-red-600 hover:bg-red-700">Delete</AlertDialogAction></AlertDialogFooter></AlertDialogContent></AlertDialog>
+            <AlertDialog open={isAlertOpen} onOpenChange={setIsAlertOpen}><AlertDialogContent className="bg-[#FBF3E5]"><AlertDialogHeader><AlertDialogTitle>Are you sure?</AlertDialogTitle><AlertDialogDescription>This will permanently delete the product &quot;{productToDelete?.name}&quot;.</AlertDialogDescription></AlertDialogHeader><AlertDialogFooter><AlertDialogCancel>Cancel</AlertDialogCancel><AlertDialogAction onClick={handleDeleteProduct} className="bg-red-600 hover:bg-red-700">Delete</AlertDialogAction></AlertDialogFooter></AlertDialogContent></AlertDialog>
         </>
     );
 }

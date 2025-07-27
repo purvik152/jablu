@@ -48,8 +48,12 @@ export async function PUT(request: NextRequest, { params }: { params: { productI
         const body = await request.json();
         const updatedProduct = await Product.findByIdAndUpdate(productId, body, { new: true, runValidators: true });
         return NextResponse.json({ message: 'Product updated successfully!', product: updatedProduct }, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json({ message: error.message }, { status: error.message.includes('Forbidden') ? 403 : 500 });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: error.message.includes('Forbidden') ? 403 : 500 });
+        } else {
+            return NextResponse.json({ message: 'An error occurred.' }, { status: 500 });
+        }
     }
 }
 
@@ -61,7 +65,11 @@ export async function DELETE(request: NextRequest, { params }: { params: { produ
         await getSellerAndVerify(token, productId);
         await Product.findByIdAndDelete(productId);
         return NextResponse.json({ message: 'Product deleted successfully!' }, { status: 200 });
-    } catch (error: any) {
-        return NextResponse.json({ message: error.message }, { status: error.message.includes('Forbidden') ? 403 : 500 });
+    } catch (error: unknown) {
+        if (error instanceof Error) {
+            return NextResponse.json({ message: error.message }, { status: error.message.includes('Forbidden') ? 403 : 500 });
+        } else {
+            return NextResponse.json({ message: 'An error occurred.' }, { status: 500 });
+        }
     }
 }

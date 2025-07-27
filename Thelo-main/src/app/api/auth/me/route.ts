@@ -8,7 +8,7 @@ interface DecodedToken {
     id: string;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     await dbConnect();
     try {
         const token = (await cookies()).get('token')?.value;

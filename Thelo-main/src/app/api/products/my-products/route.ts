@@ -19,7 +19,7 @@ interface DecodedToken {
   role: string;
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     await dbConnect();
 
     try {

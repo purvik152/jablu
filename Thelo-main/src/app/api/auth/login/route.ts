@@ -73,8 +73,13 @@ export async function POST(request: NextRequest) {
 
     return response;
 
-  } catch (error: any) {
-    console.error('LOGIN_ERROR', error.message);
-    return NextResponse.json({ message: error.message || 'An internal server error occurred.' }, { status: 500 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      console.error('LOGIN_ERROR', error.message);
+      return NextResponse.json({ message: error.message || 'An internal server error occurred.' }, { status: 500 });
+    } else {
+      console.error('LOGIN_ERROR', error);
+      return NextResponse.json({ message: 'An internal server error occurred.' }, { status: 500 });
+    }
   }
 }

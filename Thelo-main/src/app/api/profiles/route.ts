@@ -24,7 +24,7 @@ interface DecodedToken {
 }
 
 // --- GET: To fetch a user's profile ---
-export async function GET(request: NextRequest) {
+export async function GET() {
     await dbConnect();
     try {
         const token = (await cookies()).get('token')?.value;
@@ -48,8 +48,8 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ message: 'Profile not found. Please create one.' }, { status: 404 });
         }
         return NextResponse.json({ success: true, profile }, { status: 200 });
-    } catch (error: any) {
-        if (error.name === 'JsonWebTokenError') {
+    } catch (error: unknown) {
+        if (error instanceof Error && (error as any).name === 'JsonWebTokenError') {
             return NextResponse.json({ message: 'Authentication failed: Invalid token.' }, { status: 401 });
         }
         console.error('PROFILE_FETCH_ERROR', error);
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
 
 
 // --- POST: To create a user's profile ---
-export async function POST(request: NextRequest) {
+export async function POST() {
   await dbConnect();
   try {
     const token = (await cookies()).get('token')?.value;
@@ -97,8 +97,8 @@ export async function POST(request: NextRequest) {
     } else {
       return NextResponse.json({ message: 'Invalid user role.' }, { status: 400 });
     }
-  } catch (error: any) {
-    if (error.name === 'JsonWebTokenError') {
+  } catch (error: unknown) {
+    if (error instanceof Error && (error as any).name === 'JsonWebTokenError') {
         return NextResponse.json({ message: 'Authentication failed: Invalid token.' }, { status: 401 });
     }
     console.error('PROFILE_CREATION_ERROR', error);

@@ -4,7 +4,7 @@ import Notification from '@/models/Notification';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     await dbConnect();
     try {
         const token = (await cookies()).get('token')?.value;

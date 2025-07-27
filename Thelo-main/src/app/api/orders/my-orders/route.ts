@@ -39,9 +39,13 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({ success: true, orders });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("--- MY_ORDERS_API CRASH ---");
-        console.error(error.message);
+        if (error instanceof Error) {
+            console.error(error.message);
+        } else {
+            console.error(error);
+        }
         console.error("---------------------------");
         return NextResponse.json({ message: 'Failed to fetch orders on the server.' }, { status: 500 });
     }

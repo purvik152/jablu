@@ -16,6 +16,7 @@ import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { LoginPageComponent } from '@/components/custom/LoginPageComponent';
 import { SignupPageComponent } from '@/components/custom/SignupPageComponent';
 import { Wheat, Store, Search, Handshake, Truck, Leaf, Fish, Milk } from 'lucide-react';
+import Image from 'next/image';
 
 // --- Polished Intro Animation Component ---
 function IntroAnimation({ onFinished }: { onFinished: () => void }) {
@@ -83,7 +84,7 @@ function HomePageContent() {
           <Link href="/" className="flex items-center space-x-2">
             <span className="font-bold text-lg">
                 <div>
-                    <img src="/FinalLogo-withoutBG.png" className="max-h-16" alt="Thelo"></img>
+                    <Image src="/FinalLogo-withoutBG.png" className="max-h-16" alt="Thelo" width={64} height={64} />
                 </div>
             </span>
           </Link>
@@ -110,7 +111,7 @@ function HomePageContent() {
                   Delivered to Your Door.
               </h2>
               <p className="mt-8 max-w-3xl mx-auto text-lg md:text-xl text-gray-600">
-                  The definitive B2B marketplace for India's finest raw food materials. We bridge the gap between producers and businesses, ensuring quality, transparency, and growth.
+                  The definitive B2B marketplace for India&apos;s finest raw food materials. We bridge the gap between producers and businesses, ensuring quality, transparency, and growth.
               </p>
               <div className="mt-10 flex flex-wrap justify-center gap-4">
                   <Button size="lg" className="h-12 px-8 text-base bg-[#BEA093] hover:bg-[#FBF3E5] hover:text-[#BEA093]" asChild>

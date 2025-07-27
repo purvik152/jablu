@@ -113,7 +113,7 @@ export default function MyOrdersPage() {
                 </div>
             ) : (
                 <div className="text-center py-20 border-dashed border-2 rounded-lg">
-                    <h2 className="text-xl font-semibold">You haven't placed any orders yet.</h2>
+                    <h2 className="text-xl font-semibold">You haven&apos;t placed any orders yet.</h2>
                     <p className="text-muted-foreground mt-2">Your placed orders will appear here.</p>
                     <Button asChild className="mt-4">
                         <Link href="/dashboard/shopkeeper">Start Shopping</Link>
