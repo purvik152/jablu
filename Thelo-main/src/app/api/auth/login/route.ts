@@ -2,12 +2,13 @@
 * =================================================================================================
 * FILE: src/app/api/auth/login/route.ts
 *
-* ACTION: Replace the code in this file.
-* This is the updated, more robust version of your login API.
-* It now includes a specific check to ensure a user has a password before trying to
-* compare it, which will prevent this specific crash.
+* ACTION: Final, improved version of login API with:
+* - Password existence check
+* - JWT signing and secure cookie
+* - Type safety and error handling
 * =================================================================================================
 */
+
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/dbConnect';
 import User from '@/models/User';
@@ -18,25 +19,24 @@ export async function POST(request: NextRequest) {
   await dbConnect();
 
   try {
-    if (!process.env.JWT_SECRET) {
-        console.error("FATAL_ERROR: JWT_SECRET is not defined in .env.local");
-        throw new Error("Server configuration error.");
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      console.error('FATAL_ERROR: JWT_SECRET is not defined in .env.local');
+      throw new Error('Server configuration error. JWT secret is missing.');
     }
 
-    const { email, password } = await request.json();
+    const { email, password }: { email: string; password: string } = await request.json();
 
-    const user = await User.findOne({ email }).select("+password"); // Explicitly select the password
+    const user = await User.findOne({ email }).select('+password'); // Ensure password is retrieved
+
     if (!user) {
       return NextResponse.json({ message: 'Invalid credentials. User not found.' }, { status: 401 });
     }
 
-    // --- NEW, CRITICAL FIX ---
-    // Check if the user record has a password. This handles cases where a user
-    // might have been created through other means or has a corrupted record.
+    // --- CRITICAL FIX ---
     if (!user.password) {
-        return NextResponse.json({ message: 'Invalid account configuration. No password set.' }, { status: 400 });
+      return NextResponse.json({ message: 'Invalid account configuration. No password set.' }, { status: 400 });
     }
-    // -------------------------
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
       role: user.role,
     };
 
-    const token = jwt.sign(tokenPayload, process.env.JWT_SECRET, {
+    const token = jwt.sign(tokenPayload, secret, {
       expiresIn: '1d',
     });
 
@@ -57,10 +57,10 @@ export async function POST(request: NextRequest) {
       message: 'Login successful!',
       success: true,
       user: {
-          id: user._id,
-          email: user.email,
-          role: user.role
-      }
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      },
     });
 
     response.cookies.set('token', token, {
@@ -74,11 +74,11 @@ export async function POST(request: NextRequest) {
 
   } catch (error: unknown) {
     if (error instanceof Error) {
-      console.error('LOGIN_ERROR', error.message);
-      return NextResponse.json({ message: error.message || 'An internal server error occurred.' }, { status: 500 });
+      console.error('LOGIN_ERROR:', error.message);
+      return NextResponse.json({ message: error.message || 'Internal server error.' }, { status: 500 });
     } else {
-      console.error('LOGIN_ERROR', error);
-      return NextResponse.json({ message: 'An internal server error occurred.' }, { status: 500 });
+      console.error('LOGIN_ERROR:', error);
+      return NextResponse.json({ message: 'Internal server error.' }, { status: 500 });
     }
   }
 }
